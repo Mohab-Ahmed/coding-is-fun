@@ -2,6 +2,7 @@
 #	tt.c -> 1
 #	strcmp.c -> 2
 #	atoix.c -> 3
+#	malloc.c -> 4 
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -13,4 +14,8 @@ endif
 
 ifeq ($(SRC),3)
 SOURCE=atoix.c
+endif
+
+ifeq ($(SRC),4)
+SOURCE=malloc.c
 endif
