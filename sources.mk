@@ -8,6 +8,7 @@
 #	mem.c -> 7
 #	atoid.c -> 8
 #	fptr.c -> 9
+#	bit.c -> 10
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -43,4 +44,8 @@ endif
 
 ifeq ($(SRC),9)
 SOURCE=fptr.c
+endif
+
+ifeq ($(SRC),10)
+SOURCE=bit.c
 endif
