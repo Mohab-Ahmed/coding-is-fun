@@ -7,6 +7,7 @@
 #	struct.c -> 6
 #	mem.c -> 7
 #	atoid.c -> 8
+#	fptr.c -> 9
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -38,4 +39,8 @@ endif
 
 ifeq ($(SRC),8)
 SOURCE=atoid.c
+endif
+
+ifeq ($(SRC),9)
+SOURCE=fptr.c
 endif
