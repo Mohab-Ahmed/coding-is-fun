@@ -12,7 +12,8 @@
 #	sequence.c -> 11
 #	enum.c -> 12
 #	rectangle.c -> 13
-#	retirement.c -> 14
+#	retirement.c -> 14 
+#	find_bits.c -> 15
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -68,4 +69,8 @@ endif
 
 ifeq ($(SRC),14)
 SOURCE=retirement.c
+endif
+
+ifeq ($(SRC),15)
+SOURCE=find_bits.c
 endif
