@@ -11,6 +11,7 @@
 #	bit.c -> 10
 #	sequence.c -> 11
 #	enum.c -> 12
+#	rectangle.c -> 13
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -58,4 +59,8 @@ endif
 
 ifeq ($(SRC),12)
 SOURCE=enum.c
+endif
+
+ifeq ($(SRC),13)
+SOURCE=rectangle.c
 endif
