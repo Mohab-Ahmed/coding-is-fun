@@ -10,6 +10,7 @@
 #	fptr.c -> 9
 #	bit.c -> 10
 #	sequence.c -> 11
+#	enum.c -> 12
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -53,4 +54,8 @@ endif
 
 ifeq ($(SRC),11)
 SOURCE=sequence.c
+endif
+
+ifeq ($(SRC),12)
+SOURCE=enum.c
 endif
