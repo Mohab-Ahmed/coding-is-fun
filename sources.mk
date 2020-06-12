@@ -5,6 +5,7 @@
 #	malloc.c -> 4 
 #	valgrind.c -> 5
 #	struct.c -> 6
+#	mem.c -> 7
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -28,4 +29,8 @@ endif
 
 ifeq ($(SRC),6)
 SOURCE=struct.c
+endif
+
+ifeq ($(SRC),7)
+SOURCE=mem.c
 endif
