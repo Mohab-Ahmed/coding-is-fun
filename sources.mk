@@ -12,6 +12,7 @@
 #	sequence.c -> 11
 #	enum.c -> 12
 #	rectangle.c -> 13
+#	retirement.c -> 14
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -63,4 +64,8 @@ endif
 
 ifeq ($(SRC),13)
 SOURCE=rectangle.c
+endif
+
+ifeq ($(SRC),14)
+SOURCE=retirement.c
 endif
