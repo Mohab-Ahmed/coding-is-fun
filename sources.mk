@@ -14,6 +14,7 @@
 #	rectangle.c -> 13
 #	retirement.c -> 14 
 #	find_bits.c -> 15
+#	reverse.c -> 164
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -73,4 +74,8 @@ endif
 
 ifeq ($(SRC),15)
 SOURCE=find_bits.c
+endif
+
+ifeq ($(SRC),16)
+SOURCE=reverse.c
 endif
