@@ -16,6 +16,7 @@
 #	find_bits.c -> 15
 #	reverse.c -> 16
 #	encrypt.c -> 17
+#	decrypt.c -> 18
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -83,4 +84,8 @@ endif
 
 ifeq ($(SRC),17)
 SOURCE=encrypt.c
+endif
+
+ifeq ($(SRC),18)
+SOURCE=decrypt.c
 endif
