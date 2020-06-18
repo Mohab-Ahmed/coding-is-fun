@@ -19,6 +19,7 @@
 #	decrypt.c -> 18
 #	rotate_matrix.c -> 19
 #	square.c -> 20
+#	file.c -> 21
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -94,4 +95,8 @@ endif
 
 ifeq ($(SRC),20)
 SOURCE=square.c
+endif
+
+ifeq ($(SRC),21)
+SOURCE=file.c
 endif
