@@ -1,0 +1,1183 @@
+At the end of each course, you will be working on building
+a program that estimates the chances of each hand
+winning in poker in a situation described by an input file.
+
+In this portion of the project, you are going write some
+functions that work with cards (specifically, a struct
+that represents a card): printing them
+in human-readable format, converting the pair of letters
+that describe a card back into a struct (which gets
+used to read the input from a file), etc.
+
+There is a lot that will be required to complete
+the project that you will learn in the later
+courses (e.g., arrays, strings, dynamic memory allocation,
+file IO).  To make it so you can still run the poker
+simulation when you complete this project, we have provided
+object files (.o) for the later parts.  The included
+Makefile will build your cards.c with our .o files
+if you do:
+
+make poker
+
+You'll write all these parts later on, when you
+finish Courses 3 and 4 and have learned the
+corresponding concepts.
+
+In the meantime, you can test your functions
+for this assignment by writing any code you
+want in my-test-main.c.  If you do "make"
+(or "make test") then the included Makefile
+will build this and link it with your cards.o
+(compiling that if needed).
+
+To get started, take a look at cards.h.
+
+You will see that it starts by defining
+an enum suits (SPADES, HEARTS, DIAMONDS,
+and CLUBS).  This enum also has NUM_SUITS,
+which will have a numeric value of 4 (indicating
+how many suits there are), and can also
+be used to indicate an invalid suit.
+
+Next, you will see a struct for a card.
+This struct has two parts, a value
+(2,3,4,5,6,7,8,9,10,J,Q,K,A) and a suit (s,h,d,c).
+Following the struct declaration, there
+are some #defines for constants for
+the values of Ace, King, Queen, and Jack.
+Accordingly, a card's value should
+be between 2 and 14 (inclusive).
+
+There is also an enum for the hand
+ranking (what kind of poker hand you get).
+We won't be doing anything with these
+at this point, except for writing a function
+to convert from the enumerated values
+to a string.
+
+Last are some function prototypes.
+You will write each of these in cards.c.
+
+Now go into cards.c, and write each of these
+functions.  Here are the specifics:
+
+- void assert_card_valid(card_t c);
+  This function should use assert() to check
+  that the card passed in has valid values.
+  In particular, its value should be between
+  2 and VALUE_ACE (inclusive of both),
+  and its suit should be between SPADES
+  and CLUBS (inclusive of both).
+
+- const char * ranking_to_string(hand_ranking_t r);
+  This function should convert the
+  hand_ranking_t enumerated value passed
+  in to a string that describes it.  Remember
+  that Drew showed you a nice way to do this
+  with emacs keyboard macros!
+
+- char value_letter(card_t c);
+  This function should return the character that textually represents
+  the value of the passed-in card.  For values 2-9, this should
+  be that digit.  For 10, it should be '0', and for Jack, Queen, King, and Ace,
+  it should be 'J', 'Q', 'K', and 'A' respectively.
+  Hint: remember everything is a number.
+  For example, the character '0' has the decimal value 48,
+  and the character '5' has the decimal value 53, so you could represent
+  '5' as '0' + 5.
+
+- char suit_letter(card_t c);
+  This function should return the letter that textually represents
+  the suit of the card passed in ('s', 'h', 'd', or 'c' for SPADES,
+  HEARTS, DIAMONDS, or CLUBS).
+
+- void print_card(card_t c);
+  This function should print out the textual
+  representation of the card (hint: use the functions
+  you previously wrote). It should print
+  the value first, then the suit.  For example,
+  As  (for Ace of spades)
+  0d  (for 10 of diamonds)
+  Kc  (for King of clubs) etc.
+  This function should not print any additional
+  spaces or newlines after the card's text.
+
+- card_t card_from_letters(char value_let, char suit_let);
+  This function should make and return a
+  card_t whose value and suit correspond
+  to the letters passed in. If the values passed
+  in are invalid, you should use assert()
+  or print an error message and exit(EXIT_FAILURE).
+
+- card_t card_from_num(unsigned c);
+  This function should take a number from 0 (inclusive)
+  to 52 (exclusive) and map it uniquely to
+  a card value/suit combination.  Exactly
+  how you map the numbers to values/suits
+  is up to you, but you must guarantee
+  that each valid value/suit combination
+  corresponds to exactly one input value
+  in the range [0,52). Hint: you may want to use the mod
+  operator % to find the remainder of a number divided by 13.
+  (In Course 3, this function will be used
+  to make a deck of cards by iterating
+  over that range and calling it once
+  for each value--you just need
+  to learn about arrays first so you
+  have a place to put all those
+  cards.)
+
+----------------------------------------------------
+Once you have done all of these (and tested
+them to your satisfaction with my-test-main.c),
+you can
+
+make poker
+
+and try out the poker odds computation.  It
+requires one command line argument--the input file to read.
+In the input file,
+each line corresponds to one hand and lists
+the cards (with textual representation
+you were working with above).  It also
+has placeholders for future cards, which
+are a ? followed by a number.  For example,
+this input:
+
+As Ah Kc Qd 6c ?0 ?1
+2c 3d Kc Qd 6c ?0 ?1
+Ks Qs Kc Qd 6c ?0 ?1
+
+describes 3 hands (as might occur
+in a game of Texas Hold'em). All
+three hands share the King of clubs,
+the Queen of diamonds, and the 6
+of clubs (called the "flop"
+in Texas Hold'em--these are the
+3rd, 4th, and 5th cards).  Each
+hand has its own private cards
+to start (the first has the
+Ace of Spades and the Ace of Hearts,
+for example).
+
+The remainder of the hand will be
+played by dealing two more cards
+(?0 and ?1), which will be shared
+by the three hands.
+
+You could also craft an input
+where each player's cards are private
+(no cards shared), such as this:
+
+As Kh ?0 ?1 ?2
+Ac Kc ?3 ?4 ?5
+Ad Ah ?6 ?7 ?8
+
+9 cards remain in the future (?0
+through ?8), each appearing exactly
+once in one hand.
+
+
+
+
+
+_______________________________________________________________________________
+
+===============================================================================
+_______________________________________________________________________________
+
+
+
+
+
+
+The second part of this course's poker project is to write
+test cases for what you will do in the next course.
+
+In particular, one of the things you will do in your
+project in Course 3 is write the code to evaluate
+which poker hand wins between two complete hands.
+This involves writing all the code to figure out
+what kind of hand (straight flush, full house, etc.)
+is in a hand, and which 5 cards ultimately make it up.
+For example, if one hand is
+
+0c 0s 8s 7d 6d 6s 5c
+
+and the other is
+
+Js 0s 8s 7d 6s 5c 4c
+
+your code in the next course will figure out that
+the first hand has two pairs (10s and 6s) with an 8
+as the tie-breaking card (called the "kicker"),
+and that the second hand has a straight (8 7 6 5 4).
+The straight beats the two pairs, so hand 2 wins.
+
+We have provided you with test-eval, which reads
+a file containing lines with one pair of hands
+on each line and prints out the details of evaluating
+that hand.  Each line has one hand, a semi-colon,
+then the other hand, so the input for the above would
+be:
+
+0c 0s 8s 7d 6d 6s 5c; Js 0s 8s 7d 6s 5c 4c
+
+We have put this in example.txt.  If you run
+
+./test-eval example.txt
+
+Then you will get the following output:
+
+Hand 1:
+--------
+0c 0s 8s 7d 6d 6s 5c
+ - No flush
+ - The most of a kind is 2 of a kind (at index 0 / value 0)
+ - Secondary pair at index 4 (value 6)
+ - evaluate_hand's ranking: TWO_PAIR
+ - 5 cards used for hand: 0c 0s 6d 6s 8s
+Hand 2:
+--------
+Js 0s 8s 7d 6s 5c 4c
+ - No flush
+ - Straight at index 2
+ - The most of a kind is 1 of a kind (at index 0 / value J)
+ - No secondary pair
+ - evaluate_hand's ranking: STRAIGHT
+ - 5 cards used for hand: 8s 7d 6s 5c 4c
+Comparison :
+--------------
+Hand 2 wins!
+============================
+
+You can see that for each hand, this program not only prints
+the overall ranking (STRAIGHT, TWO_PAIR, etc), but also the
+results of various parts of the evaluation that went into
+the decision: Was there a flush?  Was there a straight (if
+so, where?) How many of a kind were there? etc.
+
+As with other testing assignments, we have written
+some broken implementations and placed them in
+/usr/local/l2p/poker/
+
+Your goal is to write testcases in tests.txt
+that test this problem sufficiently to identify
+the problem in each broken implementation we provided.
+
+You can use the run_all.sh script that we provided
+to run your test cases against all implementations.
+
+Here are some hints:
+====================
+
+ - Straights are tricky. Think about various ways that a programmer
+   might mess up in finding a straight.  These problems could include
+   both figuring out if there is a straight as well as copying out the
+   cards that make up the straight (or straight flush).
+
+   There could even be an off-by-one bug in where to look for a straight
+   in the hand ("count from 0 to the number of cards in the hand minus
+   [something], call it i.  Check if a straight starts at position i"
+   In such an algorithm, [something] could be off by one)
+
+ - Think about ways in which a programmer might mis-think about what
+   they need to do.  For example, one might think you can check for a
+   straight flush by checking for a straight AND a flush, but that is
+   not correct (with more than 5 cards, you could have some that are a
+   straight but others of the same suit).
+
+ - Be sure to just provide simple coverage of the basic cases (each
+   type of hand outcome, etc).
+
+ - The suits are numbers, and can be iterated across )where do you
+   think we iterate over all the suits?).  What if we counted wrong
+   when iterating over the suits?
+
+
+ - Two pairs have some subtle cases in terms of selecting the right 5
+   cards for the final hand.  Remember from the reading that the way
+   tie breaking works requires the final 5 card hand to be ordered:
+   (larger pair) (smaller pair) (tiebreaker)
+
+ - Think about everywhere the programer could be off-by-one.
+   This might include such things as counting through all the
+   positions in the hand (either missing the start or the end),
+   or being off-by-one in how many cards are required
+   for a particular hand (e.g., only requiring 4
+   cards meet a particular condition instead of 5).
+
+ - Note that you may be able to 'game' your way into passing all
+   the tests locally, but if you do this you won't actually pass the
+   assignment. The only way to pass is to provide good tests.
+
+ - Note additionally that you do not need to use invalid cards
+   in your tests.
+
+
+
+
+
+_______________________________________________________________________________
+
+===============================================================================
+_______________________________________________________________________________
+
+
+
+
+
+Decks (sets of cards)
+---------------------
+
+Note: if you have not completed the course 2 poker projects,
+please use the fast-forward command to complete them first!
+
+Now that you have learned about arrays, you are ready
+to start working with decks and hands of cards (represented
+as arrays of cards).  You will be using the card.c
+file from your Course 2 project, as this project builds
+on the same card_t type.  If you look in deck.h,
+you will find the type declaration for a deck of cards:
+
+struct deck_tag {
+  card_t ** cards;
+  size_t n_cards;
+};
+typedef struct deck_tag deck_t;
+
+We'll use the same type for a deck of cards or a hand
+of cards, since both are just a set of cards.
+
+We'll note that we could have chosen to make an array
+of cards (card_t * cards) but instead decided to make
+an array of card pointers (card_t ** cards).  You may
+wonder why we selected this design.   With this design,
+when you shuffle an array, you will move the pointers
+around, but they will point to card_ts that stay in the
+same place.  This means that if you have OTHER pointers
+(as you will have in Course 4 to handle unknown cards),
+they will still point to the right place.
+
+For example, if you have (Ah,Ks,Qc,?0):
+
+        Ah    Ks    Qc    ?0<----to_replace
+        ^     ^     ^     ^
+        |     |     |     |
+        |     |     |     |
+        |     |     |     |
+     +--|--+--|--+--|--+--|--+
+arr->|  |  |  |  |  |  |  |  |
+     +-----+-----+-----+-----+
+
+and you shuffle the pointers in the array
+(yielding, e.g, Ks, ?0, Ah, Qc) :
+
+         /------\
+        V        \
+        Ah    Ks |   Qc    ?0<----to_replace
+              ^  |   ^     ^
+          ____/  \   \     /
+         /     ___\___\___/
+        /     /    \   ---
+     +--|--+--|--+--\--+--\--+
+arr->|  |  |  |  |  |  |  |  |
+     +-----+-----+-----+-----+
+
+the to_replace pointer still points at ?0
+with no other changes.  If we had an array
+of cards and shuffled them directly, it would
+be much harder to do the card replacement later.
+
+
+First, you will write four functions in deck.c:
+
+ - void print_hand(deck_t * hand);
+   This should print out the contents of a hand.
+   It should print each card (recall that
+   you wrote print_card in Course 2), and
+   a space after each card.  Do not put
+   a newline after the hand, as this
+   function gets called to print a hand
+   in the middle of a line of output.
+
+
+ - int deck_contains(deck_t * d, card_t c);
+   This function should check if a deck
+   contains a particular card or not.  If
+   the deck does contain the card, this
+   function should return 1.  Otherwise,
+   it should return 0.
+   (You will use this later to
+   build the deck of remaining cards
+   which are not in any player's hand).
+
+ - void shuffle(deck_t * d);
+   This function takes in a deck an shuffles
+   it, randomly permuting the order of the cards.
+   There are MANY valid ways to shuffle a deck
+   of cards---we'll leave the specifics
+   of the algorithm design up to you.  However,
+   you will want to use random() to generate
+   pseudo-random numbers.  (Pseudo-random
+   numbers are quite sufficient here,
+   since they are not used for security
+   purposes). Note that you should not need to
+   use the 'srand' function.
+
+   We will note that in trying to devise
+   this algorithm, you should not
+   try to shuffle a deck of cards "normally".
+   Instead, you should take a small number
+   of cards, and think about ways
+   to shuffle them that involve using
+   random numbers to swap their order,
+   or pick positions for them, or
+   similar principles.
+
+- void assert_full_deck(deck_t * d);
+  This function should check that
+  the passed in deck contains ever
+  valid card exactly once.  If
+  the deck has any problems, this function
+  should fail an assert.  This will
+  be used to help you test your deck
+  shuffling: we will shuffle
+  a full deck, then call assert_full_deck,
+  so that you can identfiy problems with
+  the deck.  You can print
+  any error messages you want
+  if there is a problem.
+  Hint: you already wrote deck_contains.
+
+------------
+Once you have completed these functions, you should run
+
+make test-deck
+
+This will build the test-deck program which we
+have provided which runs some test cases on your functions.
+There is no one single right output, as you may shuffle
+your deck any way that you want.  However, you should
+read through the output and see if things make sense.
+The first deck is built by using your card_from_num
+function (from Course 2) for each value in the
+range [0,52). Then the deck is shuffled
+a couple times, with the results printed.
+We call assert_full_deck on each of these.
+
+Next we make a 5 card hand, and test
+deck_contains on it, shuffle, and repeat
+the process a few times.
+
+The last thing we do is take the 5 card
+hand and shuffle it 50,000,000 (50 Million)
+times, counting how often each hand occurs.
+In an ideal case, each of the 120 possible
+5-card hands would appear equally often (0.833%
+of the time).  If your shuffle is close
+to this, then it is good.  If it is drastically
+off, that is bad.
+
+Since this can take a while, the test
+program will print a '.' ever 500,000
+shuffles to let you know it isn't stuck.
+
+When it finishes, it will print out the
+frequency (and ordering) of the most and least
+common hands.  For my shuffling algorithm,
+these were 0.836496% and  0.829262% respectively,
+which is quite good.  If you end up with
+things in the 0.823% (min) to 0.843% (max) range, that's
+great.  If its in the 0.818%(min) to 0.848% (max) range,
+that's good enough.  If you are outside of that, you
+should try to work on your shuffling algorithm
+to make sure you get good results from your poker
+simulator.
+
+We provide that hands that appear most and least
+often in case it helps you debug.
+
+Once you are satsified with the functionality
+of your code for this part, run grade.
+When you pass, you get the hand evaluation in
+the next part.
+
+
+
+
+
+_______________________________________________________________________________
+
+===============================================================================
+_______________________________________________________________________________
+
+
+
+
+
+
+Hand Evaluation
+---------------
+The other part of the project that you will do in this
+course is write some of the code to evaluate and compare hands.
+Remember that in Course 2 you already wrote test cases
+for this code.   That means you have already thought
+about various corner cases that might come up
+and will have a nice suite of tests ready to go
+when you finish your code.
+
+Your ultimate goal in this step is to write a function,
+which when passed two hands of cards, determines
+which one won (or if they tied).   We'll use the
+deck_t type that you worked with in the previous
+part to represent a hand of cards as well (a hand
+of cards is just a much smaller deck of cards---they
+are both just sets of cards).
+
+There are three major steps to determining who won:
+  (1) Figuring out what ranking each hand has (straight, flush, etc)
+      If you look in cards.h, you will see enum hand_ranking_t,
+      which you worked with in Course 2.
+  (2) Figuring out which 5 cards make up the hand (picking out
+      the 5 cards that made the flush, or the two pairs and tiebreaker)
+  (3) Comparing the rankings, and if they are the same, breaking
+      ties by comparing the values in the hands.
+
+At this point, you might be thinking that there is going to
+be a lot of code to write with all the different possible
+arrangements of cards and different possible hand rankings.
+However, there are a few important things that will make
+this managable:
+
+(1) You will start by sorting the  cards into descending order
+    by value.  This makes it much easier to find straights (cards
+    in order), and you will have "N of a kind"s grouped together.
+(2) The code to find "N of a kind" is basically the same
+    for 4, 3, and 2 (so we can abstract it out into a function...)
+(3) Full house and two pair are just three of a kind and a pair
+    (so we already have that code...) with another pair
+    (so we can just write a function to find a secondary pair)
+(4) We are going to make two simplifying assumptions:
+       - if there is a flush, it will occur in at most one suit.
+         (i.e., you won't have As Ah Kh Qs 8s 7h 4s 3s 3h 2h,
+          which has two different flushes).
+       - if there is an ace-high straight, there is not also
+         an ace-low straight.
+     (These both hold for all major poker variants)
+
+If you open up eval.c, you will find the following functions
+that you will need to write:
+
+ - int card_ptr_comp(const void * vp1, const void * vp2)
+    You want to sort the hand by value, so you need
+    a comparison function to pass to quicksort.
+    Quicksort sorts into ascending order, but you
+    want descending order, so you will want to
+    return
+       something < 0  if card1 > card2
+       0              if card1 == card2
+       something > 0  if card1 < card2
+    If two cards have the same value, compare them by
+    suit in the same order as the enum suit_t:
+       club < diamond < heart < spade
+    Note that vp1 and vp2 are passed as const void *
+    because that is the type that qsort demands.
+    They will should each be assigned to variables
+    of type
+     const card_t * const * cp1
+    before using them (this is much like sorting
+    an array of strings from your readings).
+    To learn more about using the C library function qsort,
+    we suggest reviewing the course reading
+    "Sorting Functions" in the "Function Pointers"
+    lesson and consulting "man qsort"
+    to read about the comparison function.
+
+ - suit_t flush_suit(deck_t * hand);
+   This function looks at the hand and determines
+   if a flush (at least 5 cards of one suit) exists.
+   If so, it returns the suit of the cards comprising
+   the flush.  If not, it returns NUM_SUITS.
+   For example:
+    Given Ks Qs 0s 9h 8s 7s, it would return SPADES.
+    Given Kd Qd 0s 9h 8c 7c, it would return NUM_SUITS.
+
+ - unsigned get_largest_element(unsigned * arr, size_t n);
+   This function returns the largest element in an array
+   of unsigned integers.  This should be familiar
+   from the videos you watched.
+
+   In course 4 (after you learn to dynamically allocate
+   memory), you will write get_match_counts,
+   which will construct an array with one element
+   per card in the hand.  That array will
+   tell you how many cards in the hand
+   have the same value as the corresponding
+   card.  You will then use get_largest_element
+   to figure out which is the best "N of a kind".
+
+
+ - size_t get_match_index(unsigned * match_counts, size_t n,unsigned n_of_akind);
+   This function returns the index in the array (match_counts) whose
+   value is n_of_akind.  The array has n elements.  The array match_counts
+   may have multiple values equal to n_of_akind.  You should return
+   the LOWEST index whose value is n_of_akind [which also guarantees
+   it corresponds to the largest valued cards, since they will be sorted].
+   (Once you figure out the best n_of_akind above,
+    you will use this to locate that group of cards
+    in the hand).
+    Note that it is guaranteed that n_of_akind is in match_counts.
+    If not, you should abort as this is evidence of an error.
+
+
+ - ssize_t  find_secondary_pair(deck_t * hand,
+                                unsigned * match_counts,
+                                size_t match_idx) ;
+   When you have a hand with 3 of a kind or a pair,
+   you will want to look and see if there is another
+   pair to make the hand into a full house or
+   or two pairs.  This function takes in
+   the hand, the match counts from before, and
+   the index where the original match (3 of a kind
+   or pair) was found. It should find
+   the index of a card meeting the following conditions:
+     - Its match count is > 1 [so there is at least a pair of them]
+     - The card's value is not the same as the value of the
+       card at match_idx (so it is not part of the original
+       three of a kind/pair)
+     - It is the lowest index meeting the first two conditions
+       (which will be the start of that pair, and the highest
+        value pair other than the original match).
+   If no such index can be found, this function should
+   return -1.
+
+ - int is_straight_at(deck_t * hand, size_t index, suit_t fs)
+   This function should determine if there is a straight
+   starting at index (and only starting at index) in the
+   given hand.  If fs is NUM_SUITS, then it should look
+   for any straight.  If fs is some other value, then
+   it should look for a straight flush in the specified suit.
+    This function should return:
+    -1 if an Ace-low straight was found at that index (and that index is the Ace)
+     0  if no straight was found at that index
+     1  if any other straight was found at that index
+
+   When writing this function, you can assume
+   that the hand is sorted by value: the
+   values of cards will appear in descending order.
+   (A K Q ... 4 3 2).
+
+   There are two things that make this function
+   tricky (probably the trickiest function in
+   this assignment):
+     (1) Ace low straights. An Ace low straight
+         will appear in the hand with the Ace
+         first, then possibly some other cards,
+         then the 5 4 3 2.  For example, you
+         might have
+           As Ks Qc 5s 4c 3d 2c
+     (2) You may have multiple cards with the
+         same value, but still have a straight:
+           As Ac Ks Kc Qh Jh 0d
+         has a straight even though A K Q
+         do not appear next to each other in
+         our sorted order.
+  Hint: I made this easier on myself, by writing
+  two helper functions:
+  int is_n_length_straight_at(deck_t * hand, size_t index, suit_t fs, int n) ;
+   and
+  int is_ace_low_straight_at(deck_t * hand, size_t index, suit_t fs);
+
+  The second of these lets me pull out the complexities of an ace
+  low straight.  However, in doing so, I realized that there
+  would be a lot of duplication of code between the ace low straight
+  helper and the original function (for an ace low, you want to find
+  a 5, then a straight of length 4: 5, 4, 3, 2).   This realization
+  caused me to pull out much of the code into is_n_length_straight_at,
+  so that I could call it with n=4 to search for the 5,4,3,2 part
+  of an ace low straight.
+
+
+ - hand_eval_t build_hand_from_match(deck_t * hand,
+                                     unsigned n,
+                                     hand_ranking_t what,
+                                     size_t idx) ;
+   Now you have written a bunch of functions that
+   will figure out which ranking a hand has. It
+   is time to construct a hand_eval_t (see eval.h) which
+   has the ranking and the 5 cards used for it.
+   This helper function will handle the
+   "n of a kind" case.
+   It should make hand_eval_t and set its
+   ranking to the passed in "what" value.
+   Then it should copy "n" cards from
+   the hand, starting at "idx" into
+   the first "n" elements of the hand_eval_t's
+   "cards" array.  The cards field in
+   hand_eval_t is declared as:
+         card_t * cards[5]
+   This is an array of pointers, each to a card_t.
+   Draw a picture to be sure you know how to name
+   each card_t "box" before you start writing code.
+
+   Your function should then fill the remainder
+   of the "cards" array with the highest-value
+   cards from the hand which were not in
+   the "n of a kind".
+
+   For example, given this hand:
+     As Kc Kh Kd Qc 8s 5d
+   The hand has 3 kings, and the As and Qc will break ties.
+   Note that here  n = 3, what= THREE_OF_A_KIND, idx= 1.
+   So the cards array in the hand_eval_t should have
+
+     Kc Kh Kd As Qc
+
+   Note that what may also be FULL_HOUSE or TWO_PAIR,
+   since this function will get used for the first
+   part of preparing those evaluations (then other code
+   will later fix the rest of the hand with the other pair).
+
+
+ - int compare_hands(deck_t * hand1, deck_t * hand2)
+
+   This is the goal of the whole thing: given two hands,
+   figure out which wins (or if it is a tie).
+   Everything you wrote goes together to make this work!
+
+
+   We're providing you with
+     hand_eval_t evaluate_hand(deck_t * hand) ;
+   since it involves some things you won't learn until
+   Course 4.   It's also not super interesting:
+   it mostly make a bunch of calls to the functions
+   you wrote above, and has a lot of if-statements
+   to handle the rules of poker.
+
+   The important part of evaluate_hand is that
+   (a) assumes the cards in the passed in hand are
+   sorted and (b) it returns a hand_eval_t for the passed in hand.
+
+   That means that to implement compare_hands, you should
+
+ (a) sort each hand using qsort on the hand's cards
+     and your card_ptr_comp [from earlier]
+ (b) Call evaluate_hand on each hand, which gives you a hand_eval_t
+     for each hand.
+ (c) Check if the rankings in the hand_eval_t are the same
+     or different.  If they are different, you can just use
+     the ranking to determine the winner.
+ (d) If they are the same, then you need to look
+     at the values in the cards array of each hand_eval_t
+     to break the tie. The way that we constructed
+     the hand_eval_t's cards array means that
+     the cards are already ordered from most significant (at index 0)
+     to least significant (at index 4).  You can just
+     do a lexicographic comparison on the values in the arrays.
+     (Its like comparing strings, but you are comparing values
+      of cards---if element 0 is the different, use that difference
+      to determine your answer.  If element 0 is the same,
+      look at element 1, and so on).
+Note that compare hands should return a positive number
+if hand 1 is better, 0 if the hands tie, and a negative number
+if hand 2 is better.
+
+You will also notice some functions at the bottom of eval.c that
+we provided.  You don't need to do anything to these---we wrote
+them for you to keep the amount of code manageable.
+
+--------------
+That sure was a lot of code!  You've been compiling and testing
+along the way, right?  We sure hope so :)
+
+However, to help you test things out even more, we've
+provided some test infrastructure for you.
+
+If you do
+
+make
+
+You will compile the  test-eval program you are
+familiar with from Course 2. This program behaves
+exactly like it did in Course 2.  As a reminder,
+it expects input where each line looks like:
+
+hand1 ; hand2
+
+where a hand looks like something that print_hand
+would output.  So a valid input might be
+
+Kc Ac Jh 8s 9c 2s ; Ah Kh 0s 7c 7h 3c
+
+For each line in the input, the test program
+will tell you:
+ - The results of your functions that went into evaluating it
+   (if there was a straight, if there was a flush, etc).
+ - What hand_eval_t was returned by evaluate_hand for each hand
+ - Which hand won (or if it was a tie) according to compare_hands
+
+Good thing you have all those test cases from Course 2
+to use with it!
+
+Because you have an object file test-eval.o and not the source
+test-eval.c, you may need to use the debugger differently than you're
+used to. For this test program, we recommend running gdb in emacs,
+then first, specifying the command line argument (in this case, a file
+name with your tests)
+
+set args tests.txt
+
+Then you will want to set a breakpoint in the code you wrote (since
+you can't see test-eval.c, where main is, to step through it). For
+example, if you just wrote the function is_straight_at, and it doesn't
+behave the way you expect, you can do
+
+break is_straight_at
+
+and gdb will pause execution any time the program calls that
+function. Then you can use the command "run" instead of "start," since
+you don't need to pause execution at the start of main. Also recall
+the command "continue," which you can review from the debugging
+lesson.
+
+
+As usual, when you are finished, use the "grade" command.
+When you pass, this, congratulations! You are done
+with Course 3 and ready to move on to Course 4 :)
+
+
+
+
+
+_______________________________________________________________________________
+
+===============================================================================
+_______________________________________________________________________________
+
+
+
+
+
+
+Poker: Almost There!
+--------------------
+Now it is time to wrap up your poker project!
+
+You have four major things to do:
+ (1) Write a few deck/evaluation functions that need
+     malloc/realloc/free (which you were not ready for in
+     Course 3).
+ (2) Write the code to handle unknown cards (which
+     we'll call "future cards" because they will be
+     known in the future).
+ (3) Read the input.
+ (4) Write a main function, which puts this all together
+     and does the Monte Carlo simulation loop
+     (repeatedly drawing different random cards
+     for the future cards).
+
+We're going to split this into 3 parts.  In this assignment,
+you will do (1) above.  In the next assignment, you will do (2) and (3),
+which will work together to process the input.  In the final assignment,
+you will do (4), completing this project!
+
+
+Finish deck/evaluation
+----------------------
+Add these functions to deck.c:
+ - void add_card_to(deck_t * deck, card_t c);
+   Add the particular card to the given deck (which will
+   involve reallocing the array of cards in that deck).
+ - card_t * add_empty_card(deck_t * deck);
+   Add a card whose value and suit are both 0, and return a pointer
+   to it in the deck.
+   This will add an invalid card to use as a placeholder
+   for an unknown card.
+ - deck_t * make_deck_exclude(deck_t * excluded_cards);
+   Create a deck that is full EXCEPT for all the cards
+   that appear in excluded_cards.  For example,
+   if excluded_cards has Kh and Qs, you would create
+   a deck with 50 cards---all of them except Kh and Qs.
+   You will need to use malloc to allocate this deck.
+   (You will want this for the next function).
+   Don't forget you wrote card_t card_from_num(unsigned c)
+   in Course 2 and int deck_contains(deck_t * d, card_t c)
+   in Course 3!  They might be useful here.
+ - deck_t * build_remaining_deck(deck_t ** hands, size_t n_hands) ;
+   This function takes an array of hands (remember
+   that we use deck_t to represent a hand).  It then builds
+   the deck of cards that remain after those cards have
+   been removed from a full deck.  For example, if we have
+   two hands:
+      Kh Qs ?0 ?1 ?2 ?3 ?4
+      As Ac ?0 ?1 ?2 ?3 ?4
+   then this function should build a deck with 48
+   cards (all but As Ac Kh Qs).  You can just build
+   one deck with all the cards from all the hands
+   (remember you just wrote add_card_to),
+   and then pass it to make_deck_exclude.
+ - void free_deck(deck_t * deck) ;
+   Free the memory allocated to a deck of cards.
+   For example, if you do
+     deck_t * d = make_excluded_deck(something);
+     free_deck(d);
+   it should free all the memory allocated by make_excluded_deck.
+   Once you have written it, add calls to free_deck anywhere you
+   need to to avoid memory leaks.
+
+Next, go back to eval.c, and implement:
+ - unsigned * get_match_counts(deck_t * hand) ;
+   You will find its prototype after the code you wrote
+   in Course 3, and before the functions we
+   provided for you.  Replace the prototype with
+   your implementation.
+
+   Given a hand (deck_t) of cards, this function
+   allocates an array of unsigned ints with as
+   many elements as there are cards in the hand.
+   It then fills in this array with
+   the "match counts" of the corresponding cards.
+   That is, for each card in the original hand,
+   the value in the match count array
+   is how many times a card of the same
+   value appears in the hand.  For example,
+   given
+     Ks Kh Qs Qh 0s 9d 9c 9h
+   This function would return
+     2  2  2  2  1  3  3  3
+   because there are 2 kings, 2 queens,
+   1 ten, and 3 nines.
+
+We recommend you write your own testing code in a separate
+C file (e.g., test-c4deck.c) and run your own test cases
+before you submit.  When you are satisfied with the correctness
+of your code, you should grade this assignment.
+
+As a final note, we remind you that since previously released files
+have been symlinked into other directories you may need to add the
+original versions (as this is where your changes are reflected). For
+example, in this assignment we have you modify deck.c which is symlinked
+to ../c3prj1_deck/deck.c. This means when you submit the assignment you
+need to add and commit the actual file, not the symlink itself.
+
+
+
+
+
+_______________________________________________________________________________
+
+===============================================================================
+_______________________________________________________________________________
+
+
+
+
+
+
+Now you are going to write the part of this program
+that will read the input, but before you do the actual input
+processing, you are going to need to write some code
+to handle unknown cards (those hidden from you, or
+to be dealt in the future).
+
+Handling unknown/future cards
+------------------------------
+
+Here, you are going to write some functions to handle
+the unknown cards (?0, ?1, etc).
+
+First, take a look at future.h.  You will see
+that there is one struct (which is basically an
+array of decks) and two functions.
+
+Next, watch the video in which we explain the conceptual idea
+of how we represent future cards.  Good thing you learned to draw
+pictures of the behavior of programs isn't it? :)
+
+Now you are ready to write the two functions in future.c:
+
+ - void add_future_card(future_cards_t * fc, size_t index, card_t * ptr);
+   This adds ptr into the future cards for the given index (that is,
+   which ?n it is). So if this is a future card for ?3, then index
+   will be 3.  ptr will point at an existing placeholder card
+   (it will point into a hand at a card which was added
+   with add_empty_card).
+   Note that it is entirely possible to have an input like
+     Kh Qh As 4c 2c ?3 ?4
+     Ac Qc As 4c 2c ?3 ?4
+   (which might happen if e.g., someone edited a file that
+   originally have ?0, ?1, and ?2 but replaced them when
+   they became known). Or you might see ?3 before ?2.
+   Your add_future_card should handle such
+   cases by reallocing its array to be large enough to handle
+   the specified index, and just having empty decks for
+   the indicies that have not had add_future_card called
+   on them yet.
+
+ - void future_cards_from_deck(deck_t * deck, future_cards_t * fc);
+   This function takes a deck (which has been shuffled),
+   and a future_cards_t (which has been filled in with
+   all the pointers to placeholders) and draws cards from
+   the deck and assigns their values and suits to the
+   placeholders pointed to in fc.
+   For example if the deck is
+     As Kh 8c ....
+   and fc was created from the input
+     3c 4c ?0 ?1 ?2
+     5h 9d ?0 ?1 ?2
+   then this function will draw As for ?0,
+   and fill in the two placeholders for ?0 (which
+   you can find with the pointers in fc, as described
+   in the video).  Then it will draw Kh for ?1,
+   and so on. Think about a case where this function would need to
+   print an error message.
+
+You should write a main to test this functionality
+in a separate .c file (e.g., test-future.c).  We will
+compile our future.c and link it with our own main
+to test it.  We leave the details of how to test this
+up to you.
+
+Reading the input
+-----------------
+
+Now, you are ready to actually read the input.
+In input.c, write the function:
+
+ - deck_t ** read_input(FILE * f, size_t * n_hands, future_cards_t * fc);
+   This function reads the input from f.  Recall that the input
+   file has one hand per line (and that we represent a hand
+   with a deck_t).  You should allocate a deck_t for each hand
+   and place it into an array of pointers to deck_ts, which is your
+   answer.
+   This function needs to tell its caller how many hands it read.
+   We could return a struct, but we are going to do this a
+   different way: it will fill in *n_hands with the number
+   of hands.  This is a bit different, but you have seen it
+   before: this is how getline "returns" the string it
+   read and the size of the space allocated to that string.
+
+   As you read the input, if you encounter future cards
+   (?0, ?1, ...), you should use add_empty_card to
+   create a placeholder in the hand, and then add_future_card
+   to make sure you will update it correctly when you draw
+   later.  Also remember that you wrote add_card_to
+   earlier in this course, as well as card_from_letters
+   in Course 2.  These will both be handy here!
+
+   I abstracted out the code to take one single line
+   and parse it into a hand:
+     deck_t * hand_from_string(const char * str, future_cards_t * fc)
+   and recommend you do the same.
+
+ Note that most of the rest of the code assumes that a poker hand
+ has AT LEAST 5 cards in it.  Your read_input function should enforce
+ this requirement. If there are fewer than 5 cards, print
+ a useful error message and exit.
+
+Again, we recommend you write your own testing code (e.g.,
+in test-input.c).  Once you are satisfied with
+the functionality of your code, grade this assignment.
+
+
+
+
+
+_______________________________________________________________________________
+
+===============================================================================
+_______________________________________________________________________________
+
+
+
+
+
+
+Time to wrap it all up!  You are now going to write
+main, which puts it all together.  In particular,
+your program should take 1 or 2 command line arguments.
+The first is required, and is the name of the input
+file to read.  The second is optional and is the
+number of Monte Carlo trials to perform.  If it
+is not given, you should use 10,000 as a default value.
+
+ Here is the gist of what your main does:
+   - Check command line arguments/report errors
+   - Open the input file and read the hands in it
+     (you just wrote read_input!)
+   - Create a deck with the remaining cards
+     (you just wrote build_remaining_deck)
+   - Create an array to count how many times each hand
+     wins, with one more element for if there was a tie
+     (so if there are 2 hands, you should have 3 elements).
+     and initialize all its values to 0.
+   - Do each Monte Carlo trial (repeat num_trials times)
+        - Shuffle the deck of remaining cards
+          (you wrote shuffle in Course 3)
+        - Assign unknown cards from the shuffled deck
+          (you just wrote future_cards_from_deck)
+        - Use compare_hands (from Course 3) to
+          figure out which hand won. Note that
+          with potentially more than 2 hands,
+          this is much like finding the max of
+          an array, but using compare_hands
+          instead of >.
+        - Increment the win count for the winning
+          hand (or for the "ties" element of the array
+          if there was a tie).
+   - After you do all your trials, you just need
+     to print your results, free any memory
+     you allocated, and close any open files.
+
+     You should use the following format strings to report your results.
+     For each hand, you should printf
+       "Hand %zu won %u / %u times (%.2f%%)\n"
+          where the %zu is the hand number (0,1,..)  [zu is for size_t]
+          the first %u is the number of wins for that hand
+          the second %u is the total number of trials
+          the %.2f is the percentage that this win/trials ratio gives
+     Then you should printf one more line for the ties:
+       "And there were %u ties\n"
+          Where the %u is just a count of how many ties there were
+
+We're going to let you write your own Makefile for this assignment.
+This Makefile should create a program called "poker" when we run "make".
+
+Of course, you need to test this out before you submit
+it for grading.  This seems like a complicated piece
+of code, but you already have a lot of confidence in what you
+wrote in Courses 2 and 3---so thats a good start.  You
+have hopefully been testing most of the functions you
+wrote along the way.  If so, you are confident in them too.
+
+But that leaves testing your whole program, which performs
+random simulations---that can be tricky.  So how can you do it?
+To help you out, we have provided some test cases in provided-tests,
+along with the expected probabilities (in provided-tests/answers.txt)
+These probabilities are rounded to the nearest percent, and we
+don't expect your answer to be exact.  Also note that the probabiltiies
+do not always add to 100% since some hands have
+the possibility of ties.
+
+If you have problems, you can make use of the testing
+infrastructure from eariler steps to help you sort
+out the problem.  For example, you could have your
+main print out each set of hands in a format
+that you could feed into test-eval.
+You could then see if your evaluation and our evaluation
+match up for each hand that your simuluation drew.
+(Hint: use diff, don't try to compare them by hand!)
+
+
+We'll note that we setup the Makefile to build things
+for debugging by default.  However, once your program
+works, if you want to run longer simulations faster
+you can do
+
+make clean
+make OTHERFLAGS=-O3
+
+which will build your program with optimizations,
+and it will run 2--3x faster.
