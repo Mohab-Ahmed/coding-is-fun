@@ -17,6 +17,7 @@
 #	reverse.c -> 16
 #	encrypt.c -> 17
 #	decrypt.c -> 18
+#	rotate_matrix.c -> 19
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -88,4 +89,8 @@ endif
 
 ifeq ($(SRC),18)
 SOURCE=decrypt.c
+endif
+
+ifeq ($(SRC),19)
+SOURCE=rotate_matrix.c
 endif
