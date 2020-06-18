@@ -20,6 +20,7 @@
 #	rotate_matrix.c -> 19
 #	square.c -> 20
 #	file.c -> 21
+#	getline.c -> 22
 
 ifeq ($(SRC),1)
 SOURCE=tt.c
@@ -99,4 +100,8 @@ endif
 
 ifeq ($(SRC),21)
 SOURCE=file.c
+endif
+
+ifeq ($(SRC),22)
+SOURCE=getline.c
 endif
