@@ -1,3 +1,14 @@
+/********************************************************************
+* File : encrypt.c
+*
+* Author : Mohab Ahmed
+* Date   : jan 2020
+*
+* Description : a simple program to encrypt a file by providing
+*               the key to encrypt using .
+*
+********************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
